@@ -579,25 +579,6 @@ figcaption
       
     </div>
     
-    <div class="header">
-      <a class="item" href="topic10-a/index.html">
-        10-a: Services
-      </a>
-    </div>
-    <div class="menu">
-      
-      <div class="menu">
-        <a class="item" href="topic10-a/talk-1-services/services.pdf">
-          Services</a>
-      </div>
-      
-      <div class="menu">
-        <a class="item" href="topic10-a/book-b-services/index.html">
-          MyRent-14 (Services)</a>
-      </div>
-      
-    </div>
-    
   </div>
   <div class="pusher">
     <div class="ui basic segment">
@@ -903,24 +884,6 @@ figcaption
     <div class="content">
       <div class="description">
          <p>To date we have developed MyRent as a standalone application in which its data is stored in a SQLite database. In this topic we split the app into client-server modules. SQLite is retained but functions as a local cache, the primary model data repository now being allocated to a service. In developing the service we adopt a test-driven-development (TDD) approach, using a simple Play JUnit app to verify the service before refactoring the standalone MyRent app into a client capable of consuming the service api.</p>
-
-      </div>
-    </div>
-  </a>
-
-        
-          
-  <a class="ui raised link card" href="./topic10-a/index.html">
-    <div class="content">
-        <div class="right floated meta"> <i class="sitemap large icon"></i></div>
-        <div class="header"> 10-a: Services </div>
-    </div>
-    <div class="image">
-      <img class="ui bordered rounded image" src="./topic10-a/topic.png">
-    </div>
-    <div class="content">
-      <div class="description">
-         <p>Services are application components that can perform background tasks. These tasks may run for long or short periods of time. We use two particular services in MyRent, a RefreshService and a BroadcastReceiver. The BroadcastReceiver listens for a particular intent, sent either in response to booting the device or when our application starts. It then sets an alarm that triggers the refresh service at either default or user-define intervals. The refresh service keeps the data cache in sync with the data resident on the server.</p>
 
       </div>
     </div>
