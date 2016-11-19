@@ -310,8 +310,8 @@ h3
       
     
       
-        <a class="item" href="../../topic11-c/book-a-myrent-12(Mongo)/index.html">
-          MyRent-15 (Mongo)
+        <a class="item" href="../../topic11-c/book-a-myrent-16(Mongo)/index.html">
+          MyRent-16 (Mongo)
         </a>
       
     
@@ -564,14 +564,13 @@ public class ResidenceTest {
   }</code></pre>
 <p>Let&#39;s now add a single test. This will fetch the entire list of residences across the network and check that the number corresponds to the setup number.</p>
 <pre><code>  /**
-   * Clean up following tests.
+   * Obtain entire collection of residences
    * @throws Exception
    */
-  @After
-  public void teardown() throws Exception {
-    for (int i = 0; i &lt; residences.length; i += 1) {
-      service.deleteResidence(residences[i].id);
-    }
+  @Test
+  public void getResidences() throws Exception {
+    List&lt;Residence&gt; list = service.getResidences();
+    assertEquals(list.size(), NUMBER_RESIDENCES);
   }</code></pre>
 <p>These import statments are required.</p>
 <pre><code>import static org.junit.Assert.assertEquals;
