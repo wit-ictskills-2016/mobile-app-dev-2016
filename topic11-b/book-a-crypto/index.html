@@ -527,7 +527,7 @@ import com.google.common.io.Files;</code></pre>
      
       <div  class="ui tab segment lab" data-tab="04">
         <h1>Key exchange</h1>
-<p>Discovered independently by James Ellis &amp; Christopher Cocks (1973) at GCHQ, England and later by Whitfield Diffie and Martin Hellman (1976). Generally referred to as Diffie-Hellman.</p>
+<p>Discovered independently by Malcolm Williamson (1973) at GCHQ, England and later by Whitfield Diffie and Martin Hellman (1976). Generally referred to as Diffie-Hellman.</p>
 <p>Here is a slide from the presentation decks that describes what we shall now implement in a simple Java program:</p>
 <p><img src="img/20.png" alt="Figure 1: Key exchange illustrated with colours and small prime numbers"></p>
 <p>In the program we use a type <a href="https://goo.gl/Z4Xprq">BigInteger</a> because it is suited to modular arithmetic and to cryptography given the very large prime numbers used. Remember that using Math.pow() function to raise a number to an exponent requires parameter types to be doubles. This does not suit modular arithmetic where all types are natural numbers (0, 1, 2, . . .).</p>
