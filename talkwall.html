@@ -258,6 +258,10 @@ figcaption
       Manual-refresh cache
     </a>
     
+    <a class="item" href="topic10-a/talk-3-receivers/receivers.pdf">
+      BroadcastReceiver
+    </a>
+    
     <a class="item" href="topic11-a/talk-1-camera/ae-android_camera.pdf">
       Camera
     </a>
@@ -961,6 +965,24 @@ figcaption
     <div class="content">
       <div class="description">
          <p>In an accompanying presentation we showed how to use an alarm, receiver and service to automatically refresh the local data cache. Here we intervene manually and by exercising a menu option make a direct call to the service to retrieve the latest data set with which the cache is updated.</p>
+
+      </div>
+    </div>
+  </a>
+
+        
+        
+  <a class="ui raised link card" href="topic10-a/talk-3-receivers/receivers.pdf">
+    <div class="content">
+        <div class="right floated meta"> <i class="film large icon"></i></div>
+        <div class="header"> BroadcastReceiver </div>
+    </div>
+    <div class="image">
+      <img class="ui bordered rounded image" src="topic10-a/talk-3-receivers/receivers.png">
+    </div>
+    <div class="content">
+      <div class="description">
+         <p>We subclass BroadcastReceiver and within its onReceive method we retrieve the user-input refresh interval and set an alarm to fire at this frequency. Each firing results in downloading the latest service data set and refreshing the local cache. The presentation examines the onReceive method in fine detail.</p>
 
       </div>
     </div>
