@@ -588,7 +588,12 @@ figcaption
       
       <div class="menu">
         <a class="item" href="topic10-a/talk-1-services/services.pdf">
-          Services</a>
+          Auto-refresh cache</a>
+      </div>
+      
+      <div class="menu">
+        <a class="item" href="topic10-a/talk-2-manual/services_manual.pdf">
+          Manual-refresh cache</a>
       </div>
       
       <div class="menu">
@@ -987,7 +992,7 @@ figcaption
     </div>
     <div class="content">
       <div class="description">
-         <p>Services are application components that can perform background tasks. These tasks may run for long or short periods of time. We use two particular services in MyRent, a RefreshService and a BroadcastReceiver. The BroadcastReceiver listens for a particular intent, sent either in response to booting the device or when our application starts. It then sets an alarm that triggers the refresh service at either default or user-define intervals. The refresh service keeps the data cache in sync with the data resident on the server.</p>
+         <p>A service is an application component that can perform a background task. A receiver is a component that allows registration for system or application events. We use both as a means of automatically refreshing cache data from the service. A BroadcastReceiver listens for a particular intent, sent either in response to booting the device or when our application starts. It then sets an alarm that triggers the refresh service at either default or user-define intervals. We also demonstrate how to manually refresh data by making a direct call to service.</p>
 
       </div>
     </div>
