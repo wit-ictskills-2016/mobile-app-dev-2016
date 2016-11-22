@@ -361,7 +361,7 @@ h3
       <div  class="ui tab segment lab" data-tab="02">
         <h1>Resources</h1>
 <h2>Manifest</h2>
-<p>Proceeding with the application as completed to the end of the previous lab add two new activities:</p>
+<p>Proceeding with the application as <a href="https://github.com/wit-ictskills-2016/myrent-14.git">completed to the end of the previous lab</a>, we shall add two new activities, the content for which is provided in a later step:</p>
 <ul>
 <li>ResidenceCameraActivity<ul>
 <li>Manages the taking of a photo</li>
@@ -560,7 +560,7 @@ h3
       android:text=&quot;@string/save_photo&quot; /&gt;
 
 &lt;/RelativeLayout&gt;</code></pre>
-<p>Save the image <a href="img/ic_lens.png">ic_lens</a> to the folder res/mipmap-hdpi.</p>
+<p>Download the image ic_lens.png from <a href="archives/ic_lens.png">here</a> and copy it to <em>res/mipmap</em>.</p>
 <p><img src="img/02.png" alt="Figure 3: Layout for Camera activity"></p>
 <h2>Emulator</h2>
 <p>If using an Android emulator ensure you enable at least one camera simulator in the settings. This is illustrated in Figure 4.</p>
@@ -572,28 +572,96 @@ h3
         <h1>Model</h1>
 <p>The model Residence class requires a new field to represent the photo filename:</p>
 <ul>
-<li>Add this field and its json counterpart:</li>
+<li>Add and initialize with a placeholder name to avoid null pointer issues.</li>
 </ul>
-<pre><code>public String photo;
-private static final String JSON_PHOTO = &quot;photo&quot;;</code></pre>
-<p>Initialize the new Photo field in the constructors:</p>
-<p>Default:</p>
+<pre><code>public String photo;</code></pre>
 <pre><code>public Residence()
 {
   ...
   photo = &quot;photo&quot;;
-}
-
-public Residence(JSONObject json) throws JSONException
-{
-  ...
-  photo = json.getString(JSON_PHOTO); 
 }</code></pre>
-<p>Add the following statement to the method <em>toJSON</em>:</p>
-<pre><code>public JSONObject toJSON() throws JSONException
+<p>For reference here is the updated Residence:</p>
+<pre><code>package org.wit.myrent.models;
+
+import android.content.Context;
+
+import org.wit.myrent.R;
+
+import java.util.Date;
+import java.util.Random;
+
+
+public class Residence
 {
-  ...
-  json.put(JSON_PHOTO , photo);
+  public Long id;
+  public Long date;
+
+  //a latitude longitude pair
+  //example &quot;52.4566,-6.5444&quot;
+  public String geolocation;
+  public boolean rented;
+  public String tenant;
+  public double  zoom       ;//zoom level of accompanying map
+  public String photo;
+
+  public Residence() {
+    id = unsignedLong();
+    date = new Date().getTime();
+    geolocation = &quot;52.253456,-7.187162&quot;;
+    tenant = &quot;none presently&quot;;
+    zoom = 16.0f;
+    photo = &quot;photo&quot;;
+  }
+
+  public void setGeolocation(String geolocation) {
+    this.geolocation = geolocation;
+  }
+
+  public String getGeolocation() {
+    return geolocation;
+  }
+
+  public String getDateString() {
+    return &quot;Registered:&quot; + dateString();
+  }
+
+  private String dateString() {
+    String dateFormat = &quot;EEE d MMM yyyy H:mm&quot;;
+    return android.text.format.DateFormat.format(dateFormat, date).toString();
+  }
+
+  public String getResidenceReport(Context context) {
+    String rentedString = &quot;&quot;;
+    if (rented) {
+      rentedString = context.getString(R.string.residence_report_rented);
+    }
+    else {
+      rentedString = context.getString(R.string.residence_report_not_rented);
+    }
+
+    String prospectiveTenant = tenant;
+    if (tenant == null) {
+      prospectiveTenant = context.getString(R.string.residence_report_nobody_interested);
+    }
+    else {
+      prospectiveTenant = context.getString(R.string.residence_report_prospective_tenant, tenant);
+    }
+    String report = &quot;Location &quot; + geolocation + &quot; Date: &quot; + dateString() + &quot; &quot; + rentedString + &quot; &quot; + prospectiveTenant;
+    return report;
+
+  }
+
+  /**
+   * Generate a long greater than zero
+   * @return Unsigned Long value greater than zero
+   */
+  private Long unsignedLong() {
+    long rndVal = 0;
+    do {
+      rndVal = new Random().nextLong();
+    } while (rndVal &lt;= 0);
+    return rndVal;
+  }
 }</code></pre>
 
       </div>
@@ -704,7 +772,6 @@ public class FileIOHelper
     boolean success = true;
     try
     {
-      //os = getActivity().openFileOutput(filename, Context.MODE_PRIVATE);
       os = context.openFileOutput(filename, Context.MODE_PRIVATE);      
       os.write(data);
     }
@@ -746,6 +813,7 @@ public class FileIOHelper
      
       <div  class="ui tab segment lab" data-tab="05">
         <h1>Camera Activity</h1>
+<p>Note: Not all necessary import statements are supplied as accompaniment to the various code snipptes below. A complete set of statements is provided at the end of this file for reference purposes.</p>
 <p>Create a new activity ResidenceCameraActivity in the package <em>org.wit.myrent.activities</em>.</p>
 <pre><code>package org.wit.myrent.activities;
 
@@ -773,13 +841,14 @@ public class ResidenceCameraActivity extends AppCompatActivity
 <li>Override <em>onOptionsItemSelected</em> to act on pressing the Up button:</li>
 </ul>
 <pre><code>  @Override
-  public boolean onOptionsItemSelected(MenuItem item)
-  {
-    switch (item.getItemId())
-    {
-    case android.R.id.home  : onBackPressed();
-                              return true;
-    default                 : return super.onOptionsItemSelected(item);
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        onBackPressed();
+        return true;
+
+      default:
+        return super.onOptionsItemSelected(item);
     }
   }</code></pre>
 <p>Add an import statement for MenuItem:</p>
@@ -813,7 +882,7 @@ public class ResidenceCameraActivity extends AppCompatActivity
     // TODO Auto-generated method stub
 
   }</code></pre>
-<p>Register listeners to respond to clicking the buttons:</p>
+<p>Register listeners in onCreate to respond to button clicks:</p>
 <pre><code>    savePhoto.setOnClickListener(this);
     takePhoto.setOnClickListener(this);</code></pre>
 <p>In <em>onClick</em> method respond to clicking the buttons. For convenience we will locate most of the necessary code, as shown below, in two private methods: </p>
@@ -850,19 +919,17 @@ public class ResidenceCameraActivity extends AppCompatActivity
 <p>This requires an import statement for the Intent class:</p>
 <pre><code>import android.content.Intent;</code></pre>
 <p>Also necessary is a definition of the constant CAMERA_RESULT. The value 5 has been chosen arbitrarily.</p>
-<pre><code>  private static  final int     CAMERA_RESULT = 5;</code></pre>
+<pre><code>  private static  final int CAMERA_RESULT = 5;
+  public static final String EXTRA_PHOTO_FILENAME = &quot;org.wit.myrent.photo.filename&quot;;</code></pre>
 <p>Next we define the method <em>onPictureTaken</em>. We are chosing the <em>png</em> format as this is the only format acceptable to the helper method <em>writeBitMap</em>.</p>
-<pre><code>private void onPictureTaken(Bitmap data)
-  {
+<pre><code>  private void onPictureTaken(Bitmap data) {
     String filename = UUID.randomUUID().toString() + &quot;.png&quot;;
-    if(writeBitmap(this, filename, data) == true)
-    {
+    if (writeBitmap(this, filename, data) == true) {
       Intent intent = new Intent();
       intent.putExtra(EXTRA_PHOTO_FILENAME, filename);
-      setResult(Activity.RESULT_OK, intent);      
+      setResult(Activity.RESULT_OK, intent);
     }
-    else
-    {
+    else {
       setResult(Activity.RESULT_CANCELED);
     }
     finish();
@@ -873,7 +940,7 @@ import static org.wit.android.helpers.FileIOHelper.writeBitmap;</code></pre>
 <p>We must also define the string EXTRA_PHOTO_FILENAME. Note that the arguments in <a href="http://developer.android.com/reference/android/content/Intent.html#putExtra%28java.lang.String,%20android.os.Bundle%29"><em>Intent.putExtra</em></a> comprise key-value pairs, the first argument always being a String. </p>
 <pre><code>  public static   final String  EXTRA_PHOTO_FILENAME = &quot;org.wit.myrent.photo.filename&quot;;</code></pre>
 <p>A further instance variable is required to hold the picture in bitmap form:</p>
-<pre><code>  private Bitmap    residencePhoto;</code></pre>
+<pre><code>  private Bitmap residencePhoto;</code></pre>
 <p>We retrieve the photo taken by the device camera in the <em>onActivityResult</em> method:</p>
 <pre><code>  @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -902,8 +969,20 @@ import static org.wit.android.helpers.FileIOHelper.writeBitmap;</code></pre>
     }
     residenceImage.setImageBitmap(residencePhoto);
   }</code></pre>
-<p>Import the Toast class:</p>
-<pre><code>import android.widget.Toast;</code></pre>
+<p>Complete set import statements:</p>
+<pre><code>import org.wit.myrent.R;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;</code></pre>
 
       </div>
      
@@ -935,8 +1014,8 @@ private ImageView photoView;</code></pre>
 <ul>
 <li>Bind the camera button and thumbnail placeholder to their respective layouts:</li>
 </ul>
-<pre><code>    cameraButton  = (ImageView) v.findViewById(R.id.camera_button);
-    photoView     = (ImageView) v.findViewById(R.id.myrent_imageView);</code></pre>
+<pre><code>    cameraButton = (ImageView) v.findViewById(R.id.camera_button);
+    photoView = (ImageView) v.findViewById(R.id.myrent_imageView);</code></pre>
 <ul>
 <li>Register listener for camera button:</li>
 </ul>
@@ -973,15 +1052,15 @@ private ImageView photoView;</code></pre>
     }
   }</code></pre>
 <p>Respond to camera button click: add this code to <em>onClick</em>:</p>
-<pre><code>    case R.id.camera_button:           Intent ic = new Intent(getActivity(), ResidenceCameraActivity.class);
-                                       startActivityForResult(ic, REQUEST_PHOTO);
-                                       break;</code></pre>
+<pre><code>      case R.id.camera_button:
+        Intent ic = new Intent(getActivity(), ResidenceCameraActivity.class);
+        startActivityForResult(ic, REQUEST_PHOTO);
+        break;</code></pre>
 
       </div>
      
       <div  class="ui tab segment lab" data-tab="07">
         <h1>Gallery</h1>
-<p>Download the image ic_lens.png from <a href="archives/ic_lens.png">here</a> and copy it to <em>res/mipmap</em>.</p>
 <p>Add a new layout file for the gallery:</p>
 <p>File: res/layout/residence_gallery.xml</p>
 <pre><code>&lt;FrameLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
@@ -993,18 +1072,19 @@ private ImageView photoView;</code></pre>
     android:paddingLeft=&quot;@dimen/activity_horizontal_margin&quot;
     android:paddingRight=&quot;@dimen/activity_horizontal_margin&quot;
     android:paddingTop=&quot;@dimen/activity_vertical_margin&quot;
-    tools:context=&quot;org.wit.myrent.ResidenceCameraActivity&quot; &gt;
+    tools:context=&quot;org.wit.myrent.activities.ResidenceCameraActivity&quot; &gt;
 
     &lt;ImageView
         android:id=&quot;@+id/residenceGalleryImage&quot;
         android:layout_width=&quot;match_parent&quot;
         android:layout_height=&quot;426dp&quot;
-        android:src=&quot;@mipmap/ic_lens&quot; /&gt;
+        android:src=&quot;@mipmap/ic_launcher&quot; /&gt;
 
 &lt;/FrameLayout&gt;</code></pre>
 <p>Here is the activity code:</p>
 <p>File: org.wit.myrent.activities/ResidenceGalleryActivity.java</p>
-<pre><code>
+<pre><code>package org.wit.myrent.activities;
+
 import org.wit.myrent.R;
 import org.wit.myrent.app.MyRentApp;
 import org.wit.myrent.models.Portfolio;
@@ -1336,7 +1416,6 @@ public class ResidenceFragment extends Fragment implements TextWatcher,
 <li>Verify the photo in thumbnail in details view</li>
 <li>Long-press the thumbnail: does photo display in gallery?</li>
 <li>Return from gallery to details view using up button.</li>
-<li>Switch to landscape and back to portrait.</li>
 <li>Switch to residence list and back to details view: is picture still displayed?</li>
 <li>Shutdown the app and relaunch: is picture still displayed in thumbnail?</li>
 </ul>
