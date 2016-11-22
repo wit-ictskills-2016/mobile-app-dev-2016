@@ -658,6 +658,12 @@ public class MyRent extends AppCompatActivity implements View.OnClickListener
 <p>Check for the presence of our app:</p>
 <pre><code>ls -l</code></pre>
 <pre><code>drwxr-x--x u0_a80   u0_a80  2016-07-15 10:57 sqlite.myrentsqlite</code></pre>
+<p>If, in Windows, you are unable to proceed further due to a permissions issue, then try the following as a solution:</p>
+<ul>
+<li>Open a windows command prompt as an administrator. You can do this by selecting the command prompt icon in the start menu and accessing the context menu.</li>
+<li>Then in the administrative command prompt run:</li>
+</ul>
+<pre><code>adb root</code></pre>
 <p>Change directory into <em>sqlite.myrentsqlite</em>.</p>
 <pre><code>cd sqlite.myrentsqlite</code></pre>
 <p>Check its contents:</p>
