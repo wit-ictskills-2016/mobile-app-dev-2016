@@ -351,7 +351,7 @@ h3
 <li>An enlarged image will be viewable in a one-photo gallery</li>
 </ul>
 <p>The following figures provide an outline.</p>
-<p><img src="img/04.png" alt="Figure 1: Set up Genmotion camera"></p>
+<p><img src="img/04.png" alt="Figure 1: Set up Genymotion camera"></p>
 <p><img src="img/05.png" alt="Figure 2: Start the picture-taking process"></p>
 <p><img src="img/06.png" alt="Figure 3: Take and save photo"></p>
 <p><img src="img/07.png" alt="Figure 4: Long-press thumbnail opens gallery"></p>
@@ -560,11 +560,21 @@ h3
       android:text=&quot;@string/save_photo&quot; /&gt;
 
 &lt;/RelativeLayout&gt;</code></pre>
-<p>Download the image ic_lens.png from <a href="archives/ic_lens.png">here</a> and copy it to <em>res/mipmap</em>.</p>
-<p><img src="img/02.png" alt="Figure 3: Layout for Camera activity"></p>
+<p>Download the image ic_lens.png from <a href="archives/ic_lens.png">here</a> to a temp location.</p>
+<ul>
+<li>In Android Studio select <em>res/mipmap</em>, right click and select <code>new|Image Asset</code>.</li>
+<li>The <code>Configure Image Asset</code> window should open.</li>
+<li>Change the name to <code>ic_lens</code>.</li>
+<li>Browse to where you have saved the ic_lens image and select it.</li>
+<li>The result should be as represented in Figure 3.</li>
+<li>Overwrite ic_lens if it already exist.</li>
+<li>Complete the remaining steps in the configuration wizard.</li>
+</ul>
+<p><img src="img/09.png" alt="Figure 3: Image Asset configuration"></p>
+<p><img src="img/02.png" alt="Figure 4: Layout for Camera activity"></p>
 <h2>Emulator</h2>
-<p>If using an Android emulator ensure you enable at least one camera simulator in the settings. This is illustrated in Figure 4.</p>
-<p><img src="img/08.png" alt="Figure 4: Enable Emulator camera"></p>
+<p>If using an Android emulator ensure you enable at least one camera simulator in the settings. This is illustrated in Figure 5.</p>
+<p><img src="img/08.png" alt="Figure 5: Enable Emulator camera"></p>
 
       </div>
      
